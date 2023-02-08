@@ -1,8 +1,4 @@
-FROM maven:3.8.7-eclipse-temurin-17 AS build
-COPY . .
-RUN mvn clean package
-
-FROM eclipse-temurin:17-jdk-alpine
-COPY --from=build /target/*.jar /app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM maven:3.8.7-eclipse-temurin-17-alpine
+COPY src /src
+COPY pom.xml pom.xml
+ENTRYPOINT ["mvn","-f","pom.xml", "clean", "package"]
