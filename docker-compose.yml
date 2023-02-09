@@ -5,15 +5,18 @@ services:
     build:
       dockerfile: Dockerfile
     volumes:
-      - 'global:/app'
+      - global:/app
 
   prod:
     image: eclipse-temurin:17-jre-alpine
+    links:
+      - assembly
     volumes:
-      - 'global:/app'
+      - global:/target
     expose:
       - 8080
-    command: ["java -jar /target/app-0.0.1-SNAPSHOT.jar"]
+    command:
+      - 'java -jar /app-0.0.1-SNAPSHOT.jar'
     depends_on:
       assembly:
         condition: service_completed_successfully

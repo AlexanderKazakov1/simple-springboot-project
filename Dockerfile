@@ -1,4 +1,5 @@
 FROM maven:3.8.7-eclipse-temurin-17-alpine
-COPY src /src
-COPY pom.xml pom.xml
-ENTRYPOINT ["mvn","-f","pom.xml", "clean", "package"]
+WORKDIR /app
+COPY src /app/src
+COPY pom.xml /app/pom.xml
+CMD ["mvn","-f","/app/pom.xml", "clean", "package"]
