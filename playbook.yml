@@ -11,8 +11,7 @@
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
-        build:
-          dockerfile: Dockerfile
+        dockerfile: Dockerfile
 
     - name: Log into DockerHub
       docker_login:
