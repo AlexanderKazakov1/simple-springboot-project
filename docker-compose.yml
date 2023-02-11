@@ -2,20 +2,28 @@ version: '3.8'
 
 services:
   build-project:
-    volumes:
-      - type: volume
-        source: global
-        target: /app
+    container_name: app-build-project
     build:
       dockerfile: Dockerfile
-
-  deploy-project-prod:
     volumes:
       - type: volume
         source: global
         target: /app
-    build:
-      dockerfile: DockerfileDeploy
+
+  deploy-project-prod:
+    container_name: app-deploy-project
+    image: eclipse-temurin:17-jre-alpine
+    working_dir: /app
+    volumes:
+      - type: volume
+        source: global
+        target: /app
+    command:
+      - "java"
+      - "-jar"
+      - "target/app-0.0.1-SNAPSHOT.jar"
+    ports:
+      - "8080:8080"
     depends_on:
       build-project:
         condition: service_completed_successfully
