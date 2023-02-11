@@ -3,10 +3,16 @@
   become: yes
 
   tasks:
-    - name: Ensure docker is present
+    - name: Ensure python-pip is present
       apt:
-        name: docker
-        state: present
+        name: python-pip
+        state: latest
+
+    - name: Download docker
+      pip:
+        name:
+          - docker
+          - requests>=2.20.1
 
     - name: Build simple-springboot-project
       docker_image:
