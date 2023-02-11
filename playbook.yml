@@ -1,0 +1,46 @@
+- name: Provisioning server's build
+  hosts: build
+  become: yes
+
+  tasks:
+    - name: Ensure docker is present
+      apt:
+        name: docker
+        state: present
+
+    - name: Build simple-springboot-project
+      docker_image:
+        name: simple-springboot-project-image
+        build:
+          dockerfile: Dockerfile
+          args:
+            listen_port: 8080
+        source: build
+
+    - name: Tag simple-springboot-project and push to docker hub
+      docker_image:
+        name: simple-springboot-project-image
+        repository: a1kazakov/simple-springboot-project-image
+        push: yes
+        source: local
+
+
+- name: Provisioning server's deploy
+  hosts: deploy
+  become: yes
+
+  tasks:
+    - name: Ensure docker is present
+      apt:
+        name: docker
+        state: present
+
+    - name: Pull a simple-springboot-project image
+      docker_image:
+        name: simple-springboot-project-image
+        source: pull
+
+    - name: Start a container with a simple-springboot-project image
+      docker_container:
+        name: simple-springboot-project
+        image: simple-springboot-project-image

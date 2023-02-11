@@ -1,5 +1,6 @@
 FROM maven:3.8.7-eclipse-temurin-17 AS build
-COPY . .
+COPY src /src
+COPY pom.xml /pom.xml
 RUN mvn clean package
 
 FROM eclipse-temurin:17-jdk-alpine
