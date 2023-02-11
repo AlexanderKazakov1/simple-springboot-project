@@ -13,9 +13,6 @@
         name: simple-springboot-project-image
         build:
           dockerfile: Dockerfile
-          args:
-            listen_port: 8080
-        source: build
 
     - name: Log into DockerHub
       docker_login:
