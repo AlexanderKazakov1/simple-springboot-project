@@ -17,6 +17,11 @@
             listen_port: 8080
         source: build
 
+    - name: Log into DockerHub
+      docker_login:
+        username: a1kazakov
+        password:
+
     - name: Tag simple-springboot-project and push to docker hub
       docker_image:
         name: simple-springboot-project-image
@@ -34,6 +39,11 @@
       apt:
         name: docker
         state: present
+
+    - name: Log into DockerHub
+      docker_login:
+        username: a1kazakov
+        password:
 
     - name: Pull a simple-springboot-project image
       docker_image:
