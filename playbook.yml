@@ -16,18 +16,18 @@
 
     - name: Ensure docker is present
       apt:
-        name: docker
+        name: docker.io
         state: present
-
-    - name: Build simple-springboot-project
-      docker_image:
-        name: simple-springboot-project-image
-        dockerfile: Dockerfile
 
     - name: Log into DockerHub
       docker_login:
         username: a1kazakov
         password:
+
+    - name: Build simple-springboot-project
+      docker_image:
+        name: simple-springboot-project-image
+        dockerfile: Dockerfile
 
     - name: Tag simple-springboot-project and push to docker hub
       docker_image:
