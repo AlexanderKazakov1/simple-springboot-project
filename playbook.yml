@@ -21,6 +21,7 @@
 
     - name: Log into DockerHub
       docker_login:
+        email: alexanderkazakov97@mail.ru
         username: a1kazakov
         password:
 
@@ -49,6 +50,7 @@
 
     - name: Log into DockerHub
       docker_login:
+        email: alexanderkazakov97@mail.ru
         username: a1kazakov
         password:
 
