@@ -14,6 +14,11 @@
           - docker
           - requests>=2.20.1
 
+    - name: Ensure docker is present
+      apt:
+        name: docker
+        state: present
+
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
