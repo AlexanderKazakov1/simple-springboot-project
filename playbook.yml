@@ -3,6 +3,16 @@
   become: yes
 
   tasks:
+    - name: Ensure python-pip is present
+      apt:
+        name: python-pip
+        state: latest
+
+    - name: Download docker
+      pip:
+        name:
+          - docker
+
     - name: Ensure docker is present
       apt:
         name: docker.io
