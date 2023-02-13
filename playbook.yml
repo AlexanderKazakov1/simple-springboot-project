@@ -1,5 +1,5 @@
-- name: Provisioning server's build
-  hosts: build
+- name: Provisioning docker to all hosts
+  hosts: all
   become: yes
 
   tasks:
@@ -19,12 +19,12 @@
         name: docker.io
         state: present
 
-    - name: Log into DockerHub
-      docker_login:
-        email: alexanderkazakov97@mail.ru
-        username: a1kazakov
-        password:
 
+- name: Provisioning server's build
+  hosts: build
+  become: yes
+
+  tasks:
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
@@ -43,17 +43,6 @@
   become: yes
 
   tasks:
-    - name: Ensure docker is present
-      apt:
-        name: docker
-        state: present
-
-    - name: Log into DockerHub
-      docker_login:
-        email: alexanderkazakov97@mail.ru
-        username: a1kazakov
-        password:
-
     - name: Pull a simple-springboot-project image
       docker_image:
         name: simple-springboot-project-image
