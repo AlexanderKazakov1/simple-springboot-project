@@ -33,13 +33,13 @@
     - name: Clone simple-springboot-project from github
       git:
         repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
-        dest: /home/user/
+        dest: /home/user/app
 
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
         build:
-          path: /home/user/simple-springboot-project
+          path: /home/user/app
           dockerfile: Dockerfile
         source: build
 
@@ -58,7 +58,7 @@
   tasks:
     - name: Pull a simple-springboot-project image
       docker_image:
-        name: simple-springboot-project-image
+        name: a1kazakov/simple-springboot-project-image
         source: pull
 
     - name: Start a container with a simple-springboot-project image
