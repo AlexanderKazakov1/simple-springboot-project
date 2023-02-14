@@ -65,3 +65,5 @@
       docker_container:
         name: simple-springboot-project
         image: a1kazakov/simple-springboot-project-image
+        ports:
+          - "8080:8080"
