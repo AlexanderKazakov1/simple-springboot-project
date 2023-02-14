@@ -35,6 +35,9 @@
         repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
         dest: /home/user/app
 
+    - name: Checkout to develop
+      shell: cd /home/user/app | git checkout feature/ansible
+
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
