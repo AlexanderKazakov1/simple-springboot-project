@@ -64,4 +64,4 @@
     - name: Start a container with a simple-springboot-project image
       docker_container:
         name: simple-springboot-project
-        image: simple-springboot-project-image
+        image: a1kazakov/simple-springboot-project-image
