@@ -28,7 +28,10 @@
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
-        dockerfile: Dockerfile
+        build:
+          path: ./app
+          dockerfile: Dockerfile
+        source: build
 
     - name: Tag simple-springboot-project and push to docker hub
       docker_image:
