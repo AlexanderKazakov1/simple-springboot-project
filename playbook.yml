@@ -25,11 +25,21 @@
   become: yes
 
   tasks:
+    - name: Ensure git is present
+      apt:
+        name: git
+        state: present
+
+    - name: Clone simple-springboot-project from github
+      git:
+        repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
+        dest: /home/user/
+
     - name: Build simple-springboot-project
       docker_image:
         name: simple-springboot-project-image
         build:
-          path: ./app
+          path: /home/user/simple-springboot-project
           dockerfile: Dockerfile
         source: build
 
