@@ -36,7 +36,7 @@
         dest: /home/user/app
 
     - name: Checkout to develop
-      shell: cd /home/user/app | git checkout feature/ansible
+      shell: cd /home/user/app && git checkout feature/ansible
 
     - name: Build simple-springboot-project
       docker_image:
