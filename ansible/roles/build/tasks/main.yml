@@ -1,2 +1,40 @@
 ---
 # tasks file for serverbuild
+- name: Ensure python-pip is present
+  apt:
+    name: python-pip
+    state: latest
+
+- name: Download docker
+  pip:
+    name:
+      - docker
+      - requests>=2.20.1
+
+- name: Ensure git is present
+  apt:
+    name: git
+    state: present
+
+- name: Clone simple-springboot-project from github
+  git:
+    repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
+    dest: /home/user/app
+
+- name: Checkout to develop
+  shell: cd /home/user/app && git checkout feature/ansible
+
+- name: Build simple-springboot-project
+  docker_image:
+    name: simple-springboot-project-image
+    build:
+      path: /home/user/app
+      dockerfile: Dockerfile
+    source: build
+
+- name: Tag simple-springboot-project and push to docker hub
+  docker_image:
+    name: simple-springboot-project-image
+    repository: a1kazakov/simple-springboot-project-image
+    push: yes
+    source: local

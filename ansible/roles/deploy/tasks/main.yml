@@ -1,2 +1,15 @@
 ---
 # tasks file for deploy
+- name: Pull a simple-springboot-project image
+  docker_image:
+    name: a1kazakov/simple-springboot-project-image
+    source: pull
+
+- name: Start a container with a simple-springboot-project image
+  docker_container:
+    name: simple-springboot-project
+    image: a1kazakov/simple-springboot-project-image
+    working_dir: /app
+    command: ["java", "-jar", "target/app-0.0.1-SNAPSHOT.jar"]
+    ports:
+      - "8080:8080"
