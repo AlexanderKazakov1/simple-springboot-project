@@ -1,21 +1,5 @@
 ---
-# tasks file for serverbuild
-- name: Ensure python-pip is present
-  apt:
-    name: python-pip
-    state: latest
-
-- name: Download docker
-  pip:
-    name:
-      - docker
-      - requests>=2.20.1
-
-- name: Ensure git is present
-  apt:
-    name: git
-    state: present
-
+# tasks file for build
 - name: Clone simple-springboot-project from github
   git:
     repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
