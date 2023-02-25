@@ -1,0 +1,74 @@
+- name: Provisioning docker to all hosts
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure python-pip is present
+      apt:
+        name: python-pip
+        state: latest
+
+    - name: Download docker
+      pip:
+        name:
+          - docker
+          - requests>=2.20.1
+
+    - name: Ensure docker is present
+      apt:
+        name: docker.io
+        state: present
+
+
+- name: Provisioning server's build
+  hosts: build
+  become: yes
+
+  tasks:
+    - name: Ensure git is present
+      apt:
+        name: git
+        state: present
+
+    - name: Clone simple-springboot-project from github
+      git:
+        repo: https://github.com/AlexanderKazakov1/simple-springboot-project.git
+        dest: /home/user/app
+
+    - name: Checkout to develop
+      shell: cd /home/user/app && git checkout feature/ansible
+
+    - name: Build simple-springboot-project
+      docker_image:
+        name: simple-springboot-project-image
+        build:
+          path: /home/user/app
+          dockerfile: Dockerfile
+        source: build
+
+    - name: Tag simple-springboot-project and push to docker hub
+      docker_image:
+        name: simple-springboot-project-image
+        repository: a1kazakov/simple-springboot-project-image
+        push: yes
+        source: local
+
+
+- name: Provisioning server's deploy
+  hosts: deploy
+  become: yes
+
+  tasks:
+    - name: Pull a simple-springboot-project image
+      docker_image:
+        name: a1kazakov/simple-springboot-project-image
+        source: pull
+
+    - name: Start a container with a simple-springboot-project image
+      docker_container:
+        name: simple-springboot-project
+        image: a1kazakov/simple-springboot-project-image
+        working_dir: /app
+        command: ["java", "-jar", "target/app-0.0.1-SNAPSHOT.jar"]
+        ports:
+          - "8080:8080"
