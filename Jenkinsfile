@@ -36,7 +36,7 @@ pipeline {
                     withDockerRegistry(credentialsId: 'bd72d214-494a-45d6-8c0e-6ba5be29bb06', url: 'https://index.docker.io/v1/') {
                        sh 'docker pull a1kazakov/simple-springboot-project:latest'
                     }
-                    sh 'docker run a1kazakov/simple-springboot-project:latest'
+                    sh 'docker run -d a1kazakov/simple-springboot-project:latest'
                 }
             }
         }
