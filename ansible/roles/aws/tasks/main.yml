@@ -15,6 +15,7 @@
 - name: Create security group
   ec2_group:
     name: ansible_aws_practice
+    description: sg with rule descriptions
     vpc_id: vpc-07e7e98ef52a45795
     region: us-east-1
     rules:
