@@ -5,11 +5,18 @@
     name: python-pip
     state: latest
 
+- name: Install and upgrade pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+    executable: pip3
+
 - name: Download docker
   pip:
     name:
       - docker
       - requests>=2.20.1
+    executable: pip3
 
 - name: Ensure git is present
   apt:
