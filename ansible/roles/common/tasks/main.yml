@@ -2,7 +2,7 @@
 # tasks file for common
 - name: Ensure python-pip is present
   apt:
-    name: python3-pip
+    name: python-pip
     state: latest
 
 - name: Download docker
