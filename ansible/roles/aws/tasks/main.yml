@@ -32,8 +32,8 @@
 
 - name: Create first AWS EC2 instance
   ec2_instance:
-    name: "ubuntu-20-4-build-instance"
-    image_id: ami-09cd747c78a9add63
+    name: "ubuntu-22-4-build-instance"
+    image_id: ami-0557a15b87f6559cf
     instance_type: t2.micro
     security_group: ansible_aws_practice
     key_name: "id_rsa"
@@ -44,8 +44,8 @@
 
 - name: Create second AWS EC2 instance
   ec2_instance:
-    name: "ubuntu-20-4-deploy-instance"
-    image_id: ami-09cd747c78a9add63
+    name: "ubuntu-22-4-deploy-instance"
+    image_id: ami-0557a15b87f6559cf
     instance_type: t2.micro
     security_group: ansible_aws_practice
     key_name: "id_rsa"
