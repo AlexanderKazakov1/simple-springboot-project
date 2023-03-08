@@ -18,7 +18,7 @@
         volume_size: 10
     network:
       assign_public_ip: true
-    register: firstvm
+  register: firstvm
 
 - name: Create second AWS EC2 instance
   ec2_instance:
@@ -34,7 +34,7 @@
         volume_size: 10
     network:
       assign_public_ip: true
-    register: secondvm
+  register: secondvm
 
 - name: Add host as build
   add_host:
