@@ -40,10 +40,10 @@
 
 - name: Add host as build
   add_host:
-    hostname: "{{ first_vm.instances[0].public_ip_address }}"
+    hostname: "{{ first_vm.instances[0].public_ip }}"
     groups: build
 
 - name: Add host as deploy
   add_host:
-    hostname: "{{ second_vm.instances[0].public_ip_address }}"
+    hostname: "{{ second_vm.instances[0].public_ip }}"
     groups: deploy
