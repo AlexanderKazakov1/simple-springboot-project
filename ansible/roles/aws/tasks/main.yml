@@ -31,30 +31,28 @@
         rule_desc: allow ssh
 
 - name: Create first AWS EC2 instance
-  ec2:
-    key_name: id_rsa
-    region: us-east-1
-    group: ansible_aws_practice
+  ec2_instance:
+    name: "ubuntu-20-4-build-instance"
+    image_id: ami-09cd747c78a9add63
     instance_type: t2.micro
-    image: ami-09cd747c78a9add63
-    wait: yes
-    count: 1
+    security_group: ansible_aws_practice
+    key_name: "id_rsa"
     vpc_subnet_id: subnet-097cf36c35f891602
-    assign_public_ip: yes
-  register: first_vm
+    network:
+      assign_public_ip: true
+    register: first_vm
 
 - name: Create second AWS EC2 instance
-  ec2:
-    key_name: id_rsa
-    region: us-east-1
-    group: ansible_aws_practice
+  ec2_instance:
+    name: "ubuntu-20-4-deploy-instance"
+    image_id: ami-09cd747c78a9add63
     instance_type: t2.micro
-    image: ami-09cd747c78a9add63
-    wait: yes
-    count: 1
+    security_group: ansible_aws_practice
+    key_name: "id_rsa"
     vpc_subnet_id: subnet-097cf36c35f891602
-    assign_public_ip: yes
-  register: second_vm
+    network:
+      assign_public_ip: true
+    register: second_vm
 
 - name: Add host as build
   add_host:
