@@ -5,6 +5,11 @@
     name: python-pip
     state: latest
 
+- name: Ensure python-pip is present
+  apt:
+    name: python3-pip
+    state: latest
+
 - name: Install and upgrade pip
   pip:
     name: pip
