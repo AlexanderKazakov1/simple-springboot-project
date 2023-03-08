@@ -3,45 +3,44 @@
 - name: Create a new AWS EC2 key pair
   ec2_key:
     name: id_rsa
+  register: ssh_key
+
+- name: Save private key
+  copy: content="{{ ssh_key.key.private_key }}" dest=".ssh/id_rsa" mode=0600
+  when: ssh_key.changed
 
 - name: Create first AWS EC2 instance
-  ec2_instance:
-    name: "ubuntu-20-4-build-instance"
-    image_id: ami-09cd747c78a9add63
+  ec2:
+    key_name: id_rsa
+    region: us-east-1
+    group: default
     instance_type: t2.micro
-    security_group: default
-    key_name: "id_rsa"
-    vpc_subnet_id: subnet-5ca1ab1e
-    volumes:
-      ebs:
-        volume_type: gp2
-        volume_size: 10
-    network:
-      assign_public_ip: true
-  register: firstvm
+    image: ami-09cd747c78a9add63
+    wait: yes
+    count: 1
+    vpc_subnet_id: subnet-e96ebeb6
+    assign_public_ip: yes
+  register: first_vm
 
 - name: Create second AWS EC2 instance
-  ec2_instance:
-    name: "ubuntu-20-4-deploy-instance"
-    image_id: ami-09cd747c78a9add63
+  ec2:
+    key_name: id_rsa
+    region: us-east-1
+    group: default
     instance_type: t2.micro
-    security_group: default
-    key_name: "id_rsa"
-    vpc_subnet_id: subnet-5ca1ab1e
-    volumes:
-      ebs:
-        volume_type: gp2
-        volume_size: 10
-    network:
-      assign_public_ip: true
-  register: secondvm
+    image: ami-09cd747c78a9add63
+    wait: yes
+    count: 1
+    vpc_subnet_id: subnet-e96ebeb6
+    assign_public_ip: yes
+  register: second_vm
 
 - name: Add host as build
   add_host:
-    hostname: "{{ firstvm.instances[0].public_ip_address }}"
+    hostname: "{{ first_vm.instances[0].public_ip_address }}"
     groups: build
 
 - name: Add host as deploy
   add_host:
-    hostname: "{{ secondvm.instances[0].public_ip_address }}"
+    hostname: "{{ second_vm.instances[0].public_ip_address }}"
     groups: deploy
