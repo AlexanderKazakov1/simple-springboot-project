@@ -21,7 +21,6 @@
     image: ami-09cd747c78a9add63
     wait: yes
     count: 1
-    vpc_subnet_id: subnet-5ca1ab1e
     assign_public_ip: yes
   register: first_vm
 
@@ -34,7 +33,6 @@
     image: ami-09cd747c78a9add63
     wait: yes
     count: 1
-    vpc_subnet_id: subnet-5ca1ab1e
     assign_public_ip: yes
   register: second_vm
 
