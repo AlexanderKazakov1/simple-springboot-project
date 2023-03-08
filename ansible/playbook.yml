@@ -19,4 +19,4 @@
 
   roles:
     - common
-    - build
+    - deploy
