@@ -40,7 +40,7 @@
     vpc_subnet_id: subnet-097cf36c35f891602
     network:
       assign_public_ip: true
-    register: first_vm
+  register: first_vm
 
 - name: Create second AWS EC2 instance
   ec2_instance:
@@ -52,7 +52,7 @@
     vpc_subnet_id: subnet-097cf36c35f891602
     network:
       assign_public_ip: true
-    register: second_vm
+  register: second_vm
 
 - name: Add host as build
   add_host:
