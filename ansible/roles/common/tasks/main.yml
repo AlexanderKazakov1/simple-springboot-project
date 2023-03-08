@@ -6,8 +6,10 @@
     state: latest
 
 - name: Download docker
-  apt:
-    name: docker.io
+  pip:
+    name:
+      - docker
+      - requests>=2.20.1
 
 - name: Ensure git is present
   apt:
