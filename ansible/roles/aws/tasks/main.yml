@@ -1,5 +1,10 @@
 ---
 # tasks file for aws
+- name: remove key pair by name
+  ec2_key:
+    name: id_rsa
+    state: absent
+
 - name: Create a new AWS EC2 key pair
   ec2_key:
     name: id_rsa
