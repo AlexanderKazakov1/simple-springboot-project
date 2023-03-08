@@ -7,7 +7,6 @@
 
 - name: Save private key
   copy: content="{{ ssh_key.key.private_key }}" dest=".ssh/id_rsa" mode=0600
-  when: ssh_key.changed
 
 - name: Create first AWS EC2 instance
   ec2:
