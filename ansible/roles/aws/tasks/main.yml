@@ -13,7 +13,7 @@
   when: ssh_key.changed
 
 - name: Create security group
-  ec2_security_group:
+  ec2_group:
     name: ansible_aws_practice
     vpc_id: vpc-07e7e98ef52a45795
     region: us-east-1
