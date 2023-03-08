@@ -7,10 +7,12 @@
       - python3-pip
     state: latest
 
-- name: Download docker
+- name: Download docker execute from apt
   apt:
     name: docker.io
     state: latest
+
+- name: Download docker execute from pip3
   pip:
     name:
       - docker
