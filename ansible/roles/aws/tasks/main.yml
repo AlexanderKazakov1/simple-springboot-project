@@ -1,0 +1,65 @@
+---
+# tasks file for aws
+- name: Create a new AWS EC2 key pair
+  ec2_key:
+    name: id_rsa
+  register: ssh_key
+
+- name: Save private key
+  copy:
+    content: "{{ ssh_key.key.private_key }}"
+    dest: "/../../root/.ssh/id_rsa"
+    mode: 0600
+  when: ssh_key.changed
+
+- name: Create security group
+  ec2_group:
+    name: ansible_aws_practice
+    description: sg with rule descriptions
+    vpc_id: vpc-07e7e98ef52a45795
+    region: us-east-1
+    rules:
+      - proto: tcp
+        ports:
+          - 80
+        cidr_ip: 0.0.0.0/0
+        rule_desc: allow all on port 80
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: 62.84.112.29/32
+        rule_desc: allow ssh
+
+- name: Create first AWS EC2 instance
+  ec2_instance:
+    name: "ubuntu-22-4-build-instance"
+    image_id: ami-0557a15b87f6559cf
+    instance_type: t2.micro
+    security_group: ansible_aws_practice
+    key_name: "id_rsa"
+    vpc_subnet_id: subnet-097cf36c35f891602
+    network:
+      assign_public_ip: true
+  register: first_vm
+
+- name: Create second AWS EC2 instance
+  ec2_instance:
+    name: "ubuntu-22-4-deploy-instance"
+    image_id: ami-0557a15b87f6559cf
+    instance_type: t2.micro
+    security_group: ansible_aws_practice
+    key_name: "id_rsa"
+    vpc_subnet_id: subnet-097cf36c35f891602
+    network:
+      assign_public_ip: true
+  register: second_vm
+
+- name: Add host as build
+  add_host:
+    hostname: "{{ first_vm.instances[0].public_ip_address }}"
+    groups: build
+
+- name: Add host as deploy
+  add_host:
+    hostname: "{{ second_vm.instances[0].public_ip_address }}"
+    groups: deploy

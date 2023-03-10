@@ -1,3 +1,10 @@
+- name: Provisioning aws configuration
+  hosts: localhost
+  become: yes
+
+  roles:
+    - aws
+
 - name: Provisioning build configuration
   hosts: build
   become: yes
@@ -12,4 +19,4 @@
 
   roles:
     - common
-    - build
+    - deploy
