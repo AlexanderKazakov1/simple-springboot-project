@@ -43,58 +43,30 @@ resource "aws_security_group" "allow_app_traffic" {
 
 }
 
-//input credentials
+//input credentials in sh
 resource "aws_instance" "build" {
   ami           = "ami-0557a15b87f6559cf"
   instance_type = "t2.micro"
   subnet_id = "subnet-097cf36c35f891602"
   key_name = aws_key_pair.ssh.key_name
   vpc_security_group_ids = [ aws_security_group.allow_app_traffic.id ]
-  user_data = <<EOF
-#!/bin/bash
-sudo apt update
-sudo apt-get install -y openjdk-11-jdk
-sudo apt install -y maven
-sudo apt install -y awscli
-sudo apt install -y git
-sudo git clone https://github.com/AlexanderKazakov1/simple-springboot-project.git
-cd simple-springboot-project
-sudo git checkout feature/terraform
-sudo mvn clean install
-export AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
-export AWS_SECRET_ACCESS_KEY=AWS_SECRET_ACCESS_KEY
-export AWS_DEFAULT_REGION=us-east-1
-aws s3 target/app-0.0.1-SNAPSHOT.jar s3://a1kazakov.awshub.com
-EOF
+  user_data = file("build.sh")
 
   tags = {
     name = "build"
   }
 }
 
-//input credentials
+//input credentials in sh
 resource "aws_instance" "deploy" {
   ami           = "ami-0557a15b87f6559cf"
   instance_type = "t2.micro"
   subnet_id = "subnet-097cf36c35f891602"
   key_name = aws_key_pair.ssh.key_name
   vpc_security_group_ids = [ aws_security_group.allow_app_traffic.id ]
-  user_data = <<EOF
-#!/bin/bash
-sudo apt update
-sudo apt-get install -y openjdk-11-jdk
-sudo apt install -y maven
-sudo apt install -y awscli
-sudo apt install -y git
-cd /home/ubuntu
-export AWS_ACCESS_KEY_ID=AWS_ACCESS_KEY_ID
-export AWS_SECRET_ACCESS_KEY=AWS_ACCESS_KEY_ID
-export AWS_DEFAULT_REGION=us-east-1
-aws s3 cp s3://a1kazakov.awshub.com/app-0.0.1-SNAPSHOT.jar /home/ubuntu/app-0.0.1-SNAPSHOT.jar
-java -jar app-0.0.1-SNAPSHOT.jar
-EOF
+  user_data = file("deploy.sh")
 
-  tags = {
+tags = {
     name = "deploy"
   }
 }
